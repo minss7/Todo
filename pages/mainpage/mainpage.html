@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="./calendar.js"></script>
+    <title>Todo</title>
+  </head>
+  <body>
+    <div class="header"></div>
+    <div class="main-container">
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button class="next-btn" id="prevBtn">&lt;</button>
+          <h2 id="currentMonth"></h2>
+          <button class="next-btn" id="nextBtn">&gt;</button>
+        </div>
+        <div class="body-container">
+          <div class="calendar-days">
+            <div class="day">일</div>
+            <div class="day">월</div>
+            <div class="day">화</div>
+            <div class="day">수</div>
+            <div class="day">목</div>
+            <div class="day">금</div>
+            <div class="day">토</div>
+          </div>
+          <div class="calendar-dates" id="calendarDates"></div>
+        </div>
+      </div>
+      <div class="todo-container">Todo</div>
+    </div>
+  </body>
+</html>
