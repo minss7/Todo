@@ -7,6 +7,11 @@ let calendarDates = document.getElementById("calendarDates");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 
+let inputValue = document.querySelector("#todo-input");
+let todoList = document.querySelector("#todo-list");
+const localItems = JSON.parse(localStorage.getItem("saved-item"));
+
+//달력 출력 함수
 const calendarFunction = function () {
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
   const startDayOfWeek = firstDayOfMonth.getDay();
@@ -76,3 +81,69 @@ nextBtn.addEventListener("click", () => {
   }
   calendarFunction();
 });
+
+// todo 출력함수
+const createTodo = function (storageItem) {
+  let inputTodo = inputValue.value;
+
+  if (storageItem) {
+    inputTodo = storageItem.content;
+  }
+
+  const newLi = document.createElement("li");
+  const newBtn = document.createElement("button");
+  const newSpan = document.createElement("span");
+  const newDelete = document.createElement("span");
+  newDelete.classList.add("delete");
+  newDelete.textContent = "X";
+
+  newBtn.addEventListener("click", () => {
+    newLi.classList.toggle("complete");
+  });
+
+  newDelete.addEventListener("click", () => {
+    newLi.remove();
+    saveItem();
+  });
+
+  if (storageItem?.complete) {
+    newLi.classList.add("complete");
+  }
+
+  newSpan.textContent = inputTodo;
+  newLi.appendChild(newBtn);
+  newLi.appendChild(newSpan);
+  newLi.appendChild(newDelete);
+  todoList.appendChild(newLi);
+
+  inputValue.value = "";
+  saveItem();
+};
+
+const inputCheck = function () {
+  if (window.event.keyCode === 13) {
+    createTodo();
+  }
+};
+
+//localStorage에 저장하기 위한 함수
+const saveItem = function () {
+  let saveItems = [];
+  for (let i = 0; i < todoList.children.length; i++) {
+    const todoObj = {
+      content: todoList.children[i].querySelector("span").textContent,
+      complete: todoList.children[i].classList.contains("complete"),
+    };
+    saveItems.push(todoObj);
+  }
+
+  saveItems.length === 0
+    ? localStorage.removeItem("saved-item")
+    : localStorage.setItem("saved-item", JSON.stringify(saveItems));
+};
+
+if (localItems) {
+  for (i = 0; i < localItems.length; i++) {
+    createTodo(localItems[i]);
+  }
+}

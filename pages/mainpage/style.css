@@ -3,6 +3,11 @@ body {
   flex-direction: column;
   width: 100dvw;
   height: 100dvh;
+  background-color: white;
+}
+
+.header {
+  font-size: 20px;
 }
 
 .main-container {
@@ -18,11 +23,61 @@ body {
 .todo-container {
   width: 30%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-left: 5dvw;
+  align-items: center;
+  margin-right: 5dvw;
   background-color: skyblue;
   border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#todo-list {
+  list-style-type: none;
+  width: 75%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+li button {
+  height: 1rem;
+  width: 1rem;
+  margin: 0.5rem;
+}
+
+li button:active {
+  border: 2px solid grey;
+}
+
+.delete {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.delete:hover {
+  font-size: 17px;
+}
+
+.complete {
+  text-decoration: line-through;
+}
+
+#todo-input {
+  width: 70%;
+  font-size: 1rem;
 }
 
 .calendar-container {
