@@ -1,4 +1,4 @@
-const today = new Date();
+let today = new Date();
 let currentMonth = today.getMonth();
 let currentYear = today.getFullYear();
 
@@ -6,6 +6,8 @@ let currentMonthText = document.getElementById("currentMonth");
 let calendarDates = document.getElementById("calendarDates");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+const mainDay = document.getElementById("main-day");
+const mainDate = document.getElementById("main-date");
 
 let inputValue = document.querySelector("#todo-input");
 let todoList = document.querySelector("#todo-list");
@@ -70,7 +72,10 @@ prevBtn.addEventListener("click", () => {
     currentMonth = 11;
     currentYear--;
   }
+  changeToday = today.getDate();
+  today = new Date(currentYear, currentMonth, changeToday);
   calendarFunction();
+  showMain();
 });
 
 nextBtn.addEventListener("click", () => {
@@ -79,8 +84,20 @@ nextBtn.addEventListener("click", () => {
     currentMonth = 0;
     currentYear++;
   }
+  changeToday = today.getDate();
+  today = new Date(currentYear, currentMonth, changeToday);
   calendarFunction();
+  showMain();
 });
+
+const dayList = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+const showMain = function () {
+  mainDay.innerHTML = dayList[today.getDay()];
+  mainDate.innerHTML = `${today.getMonth() + 1}.${today.getDate()}`;
+};
+
+showMain();
 
 // todo 출력함수
 const createTodo = function (storageItem) {
