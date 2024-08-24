@@ -6,12 +6,55 @@ let currentMonthText = document.getElementById("currentMonth");
 let calendarDates = document.getElementById("calendarDates");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
+const mainYear = document.getElementById("main-year");
 const mainDay = document.getElementById("main-day");
 const mainDate = document.getElementById("main-date");
 
 let inputValue = document.querySelector("#todo-input");
 let todoList = document.querySelector("#todo-list");
-const localItems = JSON.parse(localStorage.getItem("saved-item"));
+// const localItems = JSON.parse(localStorage.getItem("saved-item"));
+
+const dayList = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
+//todo list위에 선택한 날짜, 요일 출력하는 함수
+const showMain = function () {
+  mainYear.innerHTML = today.getFullYear();
+  mainDay.innerHTML = dayList[today.getDay()];
+  mainDate.innerHTML = `${today.getMonth() + 1}.${today.getDate()}`;
+};
+
+showMain();
+
+let tdGroup = [];
+
+const clickDay = function () {
+  for (
+    let i = 1;
+    i <= new Date(currentYear, currentMonth + 1, 0).getDate();
+    i++
+  ) {
+    tdGroup[i] = document.getElementById(i);
+    tdGroup[i].addEventListener("click", changeToday);
+  }
+};
+
+const changeToday = function (e) {
+  let clickedDate1 = document.getElementById(today.getDate());
+  for (
+    let i = 1;
+    i <= new Date(currentYear, currentMonth + 1, 0).getDate();
+    i++
+  ) {
+    if (tdGroup[i].classList.contains("today")) {
+      tdGroup[i].classList.remove("today");
+    }
+  }
+  clickedDate1 = e.currentTarget;
+  clickedDate1.classList.add("today");
+  today = new Date(today.getFullYear(), today.getMonth(), clickedDate1.id);
+  displayTodos();
+  showMain();
+};
 
 //달력 출력 함수
 const calendarFunction = function () {
@@ -39,6 +82,7 @@ const calendarFunction = function () {
   for (let i = 1; i <= daysInMonth; i++) {
     let dateElement = document.createElement("div");
     dateElement.classList.add("date");
+    dateElement.setAttribute("id", i);
     dateElement.textContent = i;
     calendarDates.appendChild(dateElement);
   }
@@ -63,6 +107,7 @@ const calendarFunction = function () {
       }
     }
   }
+  clickDay();
 };
 calendarFunction();
 
@@ -72,7 +117,7 @@ prevBtn.addEventListener("click", () => {
     currentMonth = 11;
     currentYear--;
   }
-  changeToday = today.getDate();
+  let changeToday = today.getDate();
   today = new Date(currentYear, currentMonth, changeToday);
   calendarFunction();
   showMain();
@@ -84,22 +129,64 @@ nextBtn.addEventListener("click", () => {
     currentMonth = 0;
     currentYear++;
   }
-  changeToday = today.getDate();
+  let changeToday = today.getDate();
   today = new Date(currentYear, currentMonth, changeToday);
   calendarFunction();
   showMain();
 });
 
-const dayList = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+let inputList = [];
 
-const showMain = function () {
-  mainDay.innerHTML = dayList[today.getDay()];
-  mainDate.innerHTML = `${today.getMonth() + 1}.${today.getDate()}`;
+let keyValue =
+  today.getFullYear() + "" + (today.getMonth() + 1) + "" + today.getDate();
+
+if (!inputList[keyValue]) {
+  inputList[keyValue] = [];
+}
+
+const displayTodos = function () {
+  todoList.innerHTML = "";
+
+  keyValue =
+    today.getFullYear() + "" + (today.getMonth() + 1) + "" + today.getDate();
+
+  if (inputList[keyValue] && inputList[keyValue].length > 0) {
+    inputList[keyValue].forEach((todo) => {
+      const newLi = document.createElement("li");
+      const newBtn = document.createElement("button");
+      const newSpan = document.createElement("span");
+      const newDelete = document.createElement("span");
+      newDelete.classList.add("delete");
+      newDelete.textContent = "X";
+
+      newBtn.addEventListener("click", () => {
+        newLi.classList.toggle("complete");
+        todo.complete = !todo.complete;
+        saveInputList();
+      });
+
+      newDelete.addEventListener("click", () => {
+        newLi.remove();
+        inputList[keyValue] = inputList[keyValue].filter(
+          (item) => item !== todo
+        );
+        saveInputList();
+      });
+
+      if (todo.complete) {
+        newLi.classList.add("complete");
+      }
+
+      newSpan.textContent = todo.content;
+      newLi.appendChild(newBtn);
+      newLi.appendChild(newSpan);
+      newLi.appendChild(newDelete);
+      todoList.appendChild(newLi);
+    });
+  }
 };
 
-showMain();
-
-// todo 출력함수
+// 할 일을 생성하고 저장하는 함수
 const createTodo = function (storageItem) {
   let inputTodo = inputValue.value;
 
@@ -107,34 +194,23 @@ const createTodo = function (storageItem) {
     inputTodo = storageItem.content;
   }
 
-  const newLi = document.createElement("li");
-  const newBtn = document.createElement("button");
-  const newSpan = document.createElement("span");
-  const newDelete = document.createElement("span");
-  newDelete.classList.add("delete");
-  newDelete.textContent = "X";
+  const newTodo = {
+    content: inputTodo,
+    complete: false,
+  };
 
-  newBtn.addEventListener("click", () => {
-    newLi.classList.toggle("complete");
-  });
+  keyValue =
+    today.getFullYear() + "" + (today.getMonth() + 1) + "" + today.getDate();
 
-  newDelete.addEventListener("click", () => {
-    newLi.remove();
-    saveItem();
-  });
-
-  if (storageItem?.complete) {
-    newLi.classList.add("complete");
+  if (!inputList[keyValue]) {
+    inputList[keyValue] = [];
   }
 
-  newSpan.textContent = inputTodo;
-  newLi.appendChild(newBtn);
-  newLi.appendChild(newSpan);
-  newLi.appendChild(newDelete);
-  todoList.appendChild(newLi);
+  inputList[keyValue].push(newTodo);
 
+  displayTodos();
   inputValue.value = "";
-  saveItem();
+  saveInputList();
 };
 
 const inputCheck = function () {
@@ -143,24 +219,26 @@ const inputCheck = function () {
   }
 };
 
-//localStorage에 저장하기 위한 함수
-const saveItem = function () {
-  let saveItems = [];
-  for (let i = 0; i < todoList.children.length; i++) {
-    const todoObj = {
-      content: todoList.children[i].querySelector("span").textContent,
-      complete: todoList.children[i].classList.contains("complete"),
-    };
-    saveItems.push(todoObj);
-  }
-
-  saveItems.length === 0
-    ? localStorage.removeItem("saved-item")
-    : localStorage.setItem("saved-item", JSON.stringify(saveItems));
+const clickBtn = function () {
+  createTodo();
 };
 
-if (localItems) {
-  for (i = 0; i < localItems.length; i++) {
-    createTodo(localItems[i]);
+const saveInputList = function () {
+  const minimizedInputList = Object.fromEntries(
+    Object.entries(inputList).filter(([key, value]) => value.length > 0)
+  );
+  localStorage.setItem("inputList", JSON.stringify(minimizedInputList));
+};
+
+const loadInputList = function () {
+  const savedList = localStorage.getItem("inputList");
+  if (savedList) {
+    inputList = JSON.parse(savedList);
+    displayTodos();
   }
-}
+};
+
+window.onload = function () {
+  loadInputList();
+  displayTodos();
+};

@@ -4,55 +4,141 @@ body {
   width: 100dvw;
   height: 100dvh;
   background-color: white;
-}
-
-.header {
-  font-size: 20px;
+  margin: 0;
 }
 
 .main-container {
   display: flex;
   flex-direction: row;
-  width: 60dvw;
-  height: 60dvh;
-
-  margin: 10dvh 17dvw;
-  padding: 50px;
+  width: 100%;
+  height: 100%;
 }
 
 .todo-container {
-  width: 30%;
+  height: 100%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-right: 5dvw;
-  background-color: skyblue;
-  border: 1px solid #ccc;
+  background-color: rgb(178, 247, 136);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.day-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 30%;
+  margin-bottom: 40dvh;
+}
+
+#main-year {
+  padding-left: 1em;
+  margin-bottom: -0.5em;
+  letter-spacing: 1em;
+  font-weight: bold;
+  font-size: 22px;
+  width: 100%;
+  text-align: center;
+}
+
+#main-day {
+  font-weight: bold;
+  font-size: 100px;
+  text-shadow: 2px -2px 0 rgb(178, 247, 136) -2px -2px 0 rgb(178, 247, 136);
+}
+
+#main-date {
+  display: inline-block;
+  position: relative;
+  padding: 0px 10px;
+  background: rgb(2, 6, 30);
+  font-size: 25px;
+  color: rgb(178, 247, 136);
+  margin-top: -0.5em;
+}
+
+.todo-input-box {
+  height: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5dvh;
+}
+
+.todo-box {
+  margin-top: 40dvh;
+  width: 80%;
+  height: 35dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid rgb(2, 6, 30);
+  box-shadow: 2px 2px 0 rgb(2, 6, 30);
+  margin-bottom: 3dvh;
+}
+
 #todo-list {
-  list-style-type: none;
-  width: 75%;
+  width: 100%;
   height: 70%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: flex-start;
   padding: 0;
+}
+
+.add-container {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  width: 77%;
+}
+
+#todo-input {
+  height: auto;
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  font-weight: bold;
+}
+
+#input-btn {
+  padding: 7px 17px;
+  background-color: rgb(2, 6, 30);
+  border-radius: 20px 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: rgb(178, 247, 136);
+  z-index: 10;
+  margin-left: 20px;
 }
 
 li {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
+  width: 90%;
+  padding-top: 5px;
+  margin-bottom: 5px;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.2);
 }
 
 li button {
-  height: 1rem;
-  width: 1rem;
+  width: 7px;
+  height: 15px;
+  background: rgb(178, 247, 136);
   margin: 0.5rem;
+  box-shadow: 2px 2px 0 rgb(2, 6, 30);
+  border-radius: 3px;
 }
 
 li button:active {
@@ -65,6 +151,8 @@ li button:active {
   margin-left: auto;
   font-size: 15px;
   cursor: pointer;
+  font-weight: bold;
+  padding-right: 5px;
 }
 
 .delete:hover {
@@ -73,28 +161,30 @@ li button:active {
 
 .complete {
   text-decoration: line-through;
-}
-
-#todo-input {
-  width: 70%;
-  font-size: 1rem;
+  opacity: 0.6;
 }
 
 .calendar-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 60%;
-  background-color: #fdefde;
+  height: 100%;
+  background-color: rgb(2, 6, 30);
   border: 1px solid #ccc;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+.middle-box {
+  margin-bottom: 5dvh;
+}
 .calendar-header {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  color: white;
+  margin-bottom: 5dvh;
 }
 
 .next-btn {
@@ -105,6 +195,8 @@ li button:active {
   font-size: 23px;
   line-height: 25px;
   cursor: pointer;
+  color: white;
+  margin: 0 30px;
 }
 
 .body-container {
@@ -113,18 +205,19 @@ li button:active {
   justify-content: flex-start;
   align-items: center;
   height: 100%;
+  color: white;
 }
 
 .calendar-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-gap: 20px;
+  grid-gap: 40px;
   width: 70%;
   margin-bottom: 20px;
 }
 
 .day {
-  padding: 5px;
+  padding: 8px;
   place-items: center;
   display: grid;
 }
@@ -132,18 +225,24 @@ li button:active {
 .calendar-dates {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-gap: 20px;
+  grid-gap: 40px;
   width: 70%;
 }
 
 .date {
   cursor: pointer;
-  padding: 5px;
-  place-items: center;
+  place-items: left;
   display: grid;
-  text-align: center;
   font-size: 20px;
   font-weight: bold;
+  height: 100%;
+  width: 100%;
+  padding: 14px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.03);
+  border: none;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .nextday {
@@ -156,7 +255,8 @@ li button:active {
 }
 
 .today {
-  background: #0b0809;
-  border-radius: 50%;
-  color: #ffffff;
+  background: rgb(255, 123, 80);
+
+  color: white;
+  box-shadow: 0 0 3rem rgb(255, 123, 80);
 }

@@ -8,35 +8,42 @@
     <title>Todo</title>
   </head>
   <body>
-    <div class="header">헬인톡</div>
     <div class="main-container">
       <div class="todo-container">
         <div class="day-container">
-          <div id="main-day">Thu</div>
-          <div id="main-date">12.3</div>
+          <div id="main-year"></div>
+          <div id="main-day"></div>
+          <div id="main-date"></div>
         </div>
-        <div class="todo-box">
-          <ul id="todo-list"></ul>
-          <input type="text" id="todo-input" onkeydown="inputCheck()" />
+        <div class="todo-input-box">
+          <div class="todo-box">
+            <ul id="todo-list"></ul>
+          </div>
+          <div class="add-container">
+            <input type="text" id="todo-input" onkeydown="inputCheck()" />
+            <button id="input-btn" onclick="clickBtn()">SUBMIT</button>
+          </div>
         </div>
       </div>
       <div class="calendar-container">
-        <div class="calendar-header">
-          <button class="next-btn" id="prevBtn">&lt;</button>
-          <h2 id="currentMonth"></h2>
-          <button class="next-btn" id="nextBtn">&gt;</button>
-        </div>
-        <div class="body-container">
-          <div class="calendar-days">
-            <div class="day">일</div>
-            <div class="day">월</div>
-            <div class="day">화</div>
-            <div class="day">수</div>
-            <div class="day">목</div>
-            <div class="day">금</div>
-            <div class="day">토</div>
+        <div class="middle-box">
+          <div class="calendar-header">
+            <button class="next-btn" id="prevBtn">&lt;</button>
+            <h2 id="currentMonth"></h2>
+            <button class="next-btn" id="nextBtn">&gt;</button>
           </div>
-          <div class="calendar-dates" id="calendarDates"></div>
+          <div class="body-container">
+            <div class="calendar-days">
+              <div class="day">SUN</div>
+              <div class="day">MON</div>
+              <div class="day">TUE</div>
+              <div class="day">WED</div>
+              <div class="day">THU</div>
+              <div class="day">FRI</div>
+              <div class="day">SAT</div>
+            </div>
+            <div class="calendar-dates" id="calendarDates"></div>
+          </div>
         </div>
       </div>
     </div>
