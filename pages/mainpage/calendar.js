@@ -183,6 +183,8 @@ const displayTodos = function () {
       newLi.appendChild(newDelete);
       todoList.appendChild(newLi);
     });
+
+    todoList.scrollTop = todoList.scrollHeight;
   }
 };
 
