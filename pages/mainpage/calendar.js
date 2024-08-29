@@ -27,6 +27,8 @@ showMain();
 
 let tdGroup = [];
 
+let inputList = [];
+
 const clickDay = function () {
   for (
     let i = 1;
@@ -81,9 +83,29 @@ const calendarFunction = function () {
 
   for (let i = 1; i <= daysInMonth; i++) {
     let dateElement = document.createElement("div");
+    let dateNumber = document.createElement("span");
     dateElement.classList.add("date");
     dateElement.setAttribute("id", i);
-    dateElement.textContent = i;
+    dateNumber.textContent = i;
+    dateElement.appendChild(dateNumber);
+
+    const keyValue = `${today.getFullYear()}${today.getMonth() + 1}${i}`;
+
+    if (inputList[keyValue] && inputList[keyValue].length > 0) {
+      let todoNumber = document.createElement("span");
+      todoNumber.classList.add("todoNumber");
+      todoNumber.textContent = inputList[keyValue].length;
+      dateElement.appendChild(todoNumber);
+    }
+
+    if (
+      currentYear === today.getFullYear() &&
+      currentMonth === today.getMonth() &&
+      i === today.getDate()
+    ) {
+      dateElement.classList.add("today");
+    }
+
     calendarDates.appendChild(dateElement);
   }
 
@@ -135,19 +157,10 @@ nextBtn.addEventListener("click", () => {
   showMain();
 });
 
-let inputList = [];
-
-let keyValue =
-  today.getFullYear() + "" + (today.getMonth() + 1) + "" + today.getDate();
-
-if (!inputList[keyValue]) {
-  inputList[keyValue] = [];
-}
-
 const displayTodos = function () {
   todoList.innerHTML = "";
 
-  keyValue =
+  let keyValue =
     today.getFullYear() + "" + (today.getMonth() + 1) + "" + today.getDate();
 
   if (inputList[keyValue] && inputList[keyValue].length > 0) {
@@ -155,7 +168,9 @@ const displayTodos = function () {
       const newLi = document.createElement("li");
       const newBtn = document.createElement("button");
       const newSpan = document.createElement("span");
+      const nowTime = document.createElement("span");
       const newDelete = document.createElement("span");
+      nowTime.classList.add("time");
       newDelete.classList.add("delete");
       newDelete.textContent = "X";
 
@@ -178,14 +193,17 @@ const displayTodos = function () {
       }
 
       newSpan.textContent = todo.content;
+      nowTime.textContent = todo.time;
       newLi.appendChild(newBtn);
       newLi.appendChild(newSpan);
+      newLi.appendChild(nowTime);
       newLi.appendChild(newDelete);
       todoList.appendChild(newLi);
     });
 
     todoList.scrollTop = todoList.scrollHeight;
   }
+  calendarFunction();
 };
 
 // 할 일을 생성하고 저장하는 함수
@@ -196,13 +214,20 @@ const createTodo = function (storageItem) {
     inputTodo = storageItem.content;
   }
 
+  const now = new Date();
+  const hour = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+
   const newTodo = {
     content: inputTodo,
     complete: false,
+    time: `${hour}:${minutes}:${seconds}`,
   };
 
-  keyValue =
-    today.getFullYear() + "" + (today.getMonth() + 1) + "" + today.getDate();
+  let keyValue = `${today.getFullYear()}${
+    today.getMonth() + 1
+  }${today.getDate()}`;
 
   if (!inputList[keyValue]) {
     inputList[keyValue] = [];
