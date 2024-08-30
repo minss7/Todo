@@ -279,7 +279,7 @@ li button:active {
 @media screen and (max-width: 767px) {
   body {
     flex-direction: column;
-    width: 100vw;
+    width: 100dvw;
     height: auto;
     background-color: white;
     margin: 0;
@@ -325,7 +325,8 @@ li button:active {
   .todo-input-box {
     margin-bottom: 20px;
     height: auto;
-    flex-grow: 2;
+    min-height: 170px;
+    flex-grow: 1;
   }
 
   .todo-box {
