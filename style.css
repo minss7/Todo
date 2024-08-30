@@ -353,9 +353,10 @@ li button:active {
   }
 
   li button {
-    width: 5px;
-    height: 12px;
+    width: 3px;
+    height: 10px;
     margin: 0.3rem;
+    box-shadow: 1px 1px 0 rgb(2, 6, 30);
   }
 
   .delete {
